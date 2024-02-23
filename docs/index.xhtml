@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>A Markov Model of Adaptive Immunity Predicts Response to Cancer Immunotherapy</title>
+        <link rel="stylesheet" type="text/css" href="murthy_css_ex_2.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        
+        <header>
+            <h1>A Markov Model of Adaptive Immunity Predicts Response to Cancer Immunotherapy</h1>
+            <h3><u>Praneel Murthy</u><sup>1, 2</sup>, Jennifer Bone<sup>3</sup>, Wenjing Pan<sup>2</sup>, Brittany Brown<sup>2</sup>, Daniel Weber<sup>2</sup>,
+                Myrah Hoskins<sup>2</sup>, Hannah Maroney<sup>2</sup>, Miranda Byrne-Steele<sup>2</sup>, Amer H. Zureikat<sup>1</sup>,
+                Jian Han<sup>2</sup>, Brendan D. Curti<sup>4</sup>, Newell Washburn<sup>3</sup>, Michael T. Lotze<sup>1</sup></h3>
+            <h3><sup>1</sup>University of Pittsburgh, <sup>2</sup>iRepertoire Inc., <sup>3</sup>Carnegie Mellon University, <sup>4</sup>Providence Cancer Institute</h3>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#background">Background</a></li>
+                <li><a href="#study-design">Study Design</a></li>
+                <li><a href="#methods">Methods</a></li>
+                <li><a href="#pre-treatment-diversity">Preliminary Results</a></li>
+                <li><a href="#algorithm">Algorithm Outline</a></li>
+                <li><a href="#model">Markov Model</a></li>
+                <li><a href="#cohort1">Feature Selection</a></li>
+                <li><a href="#cohort2">Model Validation</a></li>
+                <li><a href="#conclusions">Conclusions</a></li>
+                <li><a href="#future">Future Directions</a></li>
+                <li><a href="#acknowledgements">Acknowledgements</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <section id="background">
+                <h2>Background</h2>
+                <ul>
+                    <li>The adaptive immune system, including the highly diverse T (TCR) and B cell receptor (BCR) repertoire decline with age and are associated with the development of cancer.</li>
+                    <li>A statistical model using natural language processing (NLP) of TCR and BCR amino acid sequences was developed to predict metastatic kidney cancer response to interleukin-2(IL-2) immunotherapy even within small patient cohorts.</li>
+                </ul>
+            </section>
+            
+            <section id="study-design">
+                <h2>Study Design</h2>
+                <img src="images/study-design1.png" class="small"/>
+                <p>University of Pittsburgh Medical Center (UPMC) Training Cohort: Phase II clinical trial of IL-2 and hydroxychloroquine (HCQ) in patients with metastatic clear cell renal carcinoma (RCC)</p>                
+                <ul><li>Aim: Evaluate baseline and on treatment biomarkers of treatment response (CR+PR+SD)</li>
+                <li>Peripheral blood collected pre- and post-treatment for multiplex TCR &amp; BCR RNA based sequencing</li>
+                <li>Providence Cancer Institute (PCI) Validation Cohort: Phase II clinical trial of IL-2 monotherapy in patients with metastatic RCC</li></ul>
+                <img src="images/study-design2.png" class="smallest"/>
+            </section>
+            
+            <section id="methods">
+                <h2>Methods</h2>
+                <img src="images/methods.png" class="small" />
+            </section>
+            
+            <section id="pre-treatment-diversity">
+                <h2>Pre-Treatment Diversity Does Not Distinguish Therapeutic Response</h2>
+                <img src="images/prelim.png" class="smallest"/>
+                <p><b>Figure 1:</b> Pre-treatment TCR Vα, Vβ, Vγ, Vδ, and BCR IgH, Igκ, Igλ repertoire diversity metrics including unique CDR3s (A), Shannon entropy (B), Diversity 50 (C), or Diversity 0.1 (D, a measure of diversity of clonally expanded CDR3s) among responders (blue) and nonresponders (red) of combined training and validation cohorts. Mann-Whitney U Test, * p &lt; 0.05</p>   
+            </section>
+            
+            <section id="algorithm">
+                <h2>Algorithm Outline</h2>
+                <img src="images/algorithm.png" class="small"/>
+                <p><b>Figure 2:</b> Algorithm begins by importing CDR3 sample files and featurizing the CDR3s (generating conditional probability of amino acid pairs). Feature selection is then run on training data (pretreatment time point) and weighted by utilizing a leave-one-out sampling to create a Feature Filter. After applying the filter, the sum of the feature selection scores are computed and compared between Responders and Non-Responders.</p>
+            </section>
+            
+            <section id="markov-model">
+                <h2>A Markov Model of Adaptive Immunity and Therapeutic Response</h2>
+                <img src="images/markov1.png" class="small"/>
+                <img src="images/markov2.png" class="small"/>
+                <p><b>Figure 3:</b></p>
+                <ul>
+                    <li>Initial classification pipeline involves processing CDR3 lists from patient samples at pre-treatment time point</li>
+                    <li>CDR3 sequences are cut into pairs and converted into a conditional probability map with 400 features</li>
+                    <li>Probability maps are compared between responder and non-responder cohorts to identify significant features, resulting in a Feature Significance Matrix with relevant features</li></ul>
+            </section>
+            
+            <section id="feature-selection-filter">
+                <h2>Feature Selection Filter Classifies Patient Response (Cohort 1)</h2>
+                <img src="images/upmcA.png" class="smallest" />
+                <img src="images/upmcB.png" class="smallest"/>
+                <img src="images/UPMC_F1.png" class="smallest"/>
+                <p><b>Figure 4:</b></p>
+                <ul>
+                    <li>TCR (A) and BCR (B) chain feature
+                    selection scores at pre-treatment
+                    (preRx), 15, or 60 days post therapy
+                    initiation</li>
+                    <li>Ranked Sum Mann Whitney U Test:
+                        *p &lt; 0.05, **p &lt; 0.01, ***p &lt; 0.001,
+                        ****p &lt; 0.0001</li>
+                    <li>PreRx timepoint model F score (C)</li>
+                </ul>
+            </section>
+            
+            <section id="model-validation">
+                <h2>Model Validation (Cohort 2)</h2>
+                <img src="images/PCI_A.png" class="smallest"/>
+                <img src="images/PCI_B.png" class="smallest"/>
+                <img src="images/PCI_F1.png" class="smallest"/>  
+                <p><b>Figure 5:</b></p>
+                <ul>
+                    <li>TCR (A) and BCR (B) chain feature
+                        selection scores at pre-treatment
+                        (preRx), 5, 8, or 30 days post therapy
+                        initiation</li>
+                    <li>Ranked Sum Mann Whitney U Test:
+                        *p &lt; 0.05, **p &lt; 0.01, ***p &lt; 0.001,
+                        ****p &lt; 0.0001</li>
+                    <li>PreRx timepoint model F score (C)</li>
+                </ul>
+            </section>
+            
+            <section id="conclusions">
+                <h2>Conclusions</h2>
+                <ul>
+                    <li>Pre-treatment TCR and BCR repertoire diversity, with the exception of γδ TCR diversity, are not associated
+                    with therapeutic response, with high overlap of bulk repertoire features among patients</li>
+                    <li>A Markov Model based on CDR3 amino acid pairs is predictive of IL-2 immunotherapy response in patients
+                    with metastatic RCC across two independent clinical cohorts</li>
+                    <li>UPMC Cohort: All TCR chains show high predictive ability at all timepoints; while BCR chain predictive ability
+                    is restricted to pre-Rx timepoint</li>
+                    <li>PCI Cohort: TCR Vβ, Vγ, Vδ and BCR Igλ retain high predictive ability at all or a majority of timepoints</li>
+                </ul>
+            </section>
+            
+            <section id="future-directions">
+                <h2>Future Directions</h2>
+                <ul>
+                    <li>Temporal monitoring of repertoires over treatment to evaluate mechanistic information on the interaction of
+                    T and B cells, between responding/non-responding patients</li>
+                    <li>Improve algorithm with gradient boosting decision tree (GBDT) classifier</li>
+                    <li>Validate approach in additional clinical cohorts receiving immunotherapy</li>
+                </ul>
+            </section>
+            
+            <section id="acknowledgements">
+                <h2>Acknowledgements</h2>
+                <p>Clinical Trial Patients, Families, &amp; Staff</p>
+                <p>HudsonAlpha BioTrain Internship, iRepertoire Inc</p>
+                <p>Study Oversight &amp; Mentorship</p>
+                <ul><li>Jennifer Bone</li>
+                    <li>Wenjing Pan</li>
+                    <li>Michael Lotze</li>
+                </ul>
+                <p>Sample Collection, Processing, Sequencing</p>
+                <ul><li>Brittany Brown</li>
+                    <li>Myrah Hoskins</li>
+                    <li>Hannah Maroney</li>
+                    <li>Lizzy Eisenhower</li>
+                </ul>
+                <p>Bioinformatics Support</p>
+                <ul><li>Daniel Weber</li>
+                    <li>Mary Eisenhower</li>
+                </ul>
+                <p>Funding</p>
+                <ul><li>NCI R01 CA206012 (MTL), UPMC Division of Surgical Oncology (AHZ)</li></ul>
+            </section>
+        </main>
+    </body>
+</html>
